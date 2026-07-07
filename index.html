@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADAMA — The fire is always burning.</title>
+<meta name="description" content="Black Rock City, Aug 30 – Sep 7, 2026.">
+
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon_32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon_64.png">
+<link rel="apple-touch-icon" href="assets/app_icon_256.png">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="ADAMA — The fire is always burning.">
+<meta property="og:description" content="Black Rock City, Aug 30 – Sep 7, 2026.">
+<meta property="og:image" content="assets/og_image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ADAMA — The fire is always burning.">
+<meta name="twitter:description" content="Black Rock City, Aug 30 – Sep 7, 2026.">
+<meta name="twitter:image" content="assets/og_image.jpg">
+
+<style>
+  /* ---- ADAMA self-hosted variable fonts ---- */
+  @font-face {
+    font-family: 'Fraunces';
+    src: url("assets/Fraunces-variable.ttf") format('truetype-variations');
+    font-weight: 100 900; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'Fraunces';
+    src: url("assets/Fraunces-Italic-variable.ttf") format('truetype-variations');
+    font-weight: 100 900; font-style: italic; font-display: swap;
+  }
+  @font-face {
+    font-family: 'Source Sans 3';
+    src: url("assets/SourceSans3-variable.ttf") format('truetype-variations');
+    font-weight: 200 900; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'Source Sans 3';
+    src: url("assets/SourceSans3-Italic-variable.ttf") format('truetype-variations');
+    font-weight: 200 900; font-style: italic; font-display: swap;
+  }
+
+  /* ---- ADAMA tokens (locked palette + scale) ---- */
+  :root {
+    --clay: #9C4A32;
+    --ember: #F26A2E;
+    --charcoal: #1F1714;
+    --dust: #F3E7D2;
+    --cream: #FAF6F0;
+    --ochre: #D99A3D;
+
+    --surface-card: color-mix(in oklab, var(--dust), var(--cream) 45%);
+    --text-on-dark-muted: color-mix(in oklab, var(--dust), var(--charcoal) 30%);
+    --border-soft: color-mix(in oklab, var(--clay), var(--cream) 70%);
+
+    --overlay-dark-top: rgba(31, 23, 20, 0.55);
+    --overlay-dark-bottom: rgba(49, 30, 22, 0.68);
+
+    --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+    --font-body: 'Source Sans 3', 'Source Sans Pro', system-ui, sans-serif;
+
+    --text-countdown: clamp(3.5rem, 10vw, 7rem);
+    --text-display: clamp(1.85rem, 4vw, 2.75rem);
+    --text-title: 1.5rem;
+    --text-body-lg: 1.25rem;
+    --text-body: 1.0625rem;
+    --text-small: 0.9375rem;
+    --text-caps: 0.8125rem;
+
+    --tracking-caps: 0.14em;
+    --leading-body: 1.6;
+    --leading-display: 1.12;
+
+    --radius-organic: 18px;
+    --section-pad-y: clamp(72px, 12vh, 128px);
+    --section-pad-x: clamp(20px, 5vw, 48px);
+    --measure-reading: 34rem;
+
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--charcoal);
+    color: var(--charcoal);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  a { color: var(--ember); text-decoration: none; }
+  a:hover { color: color-mix(in oklab, var(--ember), var(--charcoal) 8%); }
+
+  /* ---- Hero ---- */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--charcoal) url("assets/texture_dust.jpg") center/cover;
+  }
+  .hero-video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(95% 60% at 50% 46%, rgba(31,23,20,0.42), transparent 72%),
+      radial-gradient(110% 65% at 50% 122%, rgba(242,106,46,0.12), transparent 60%),
+      linear-gradient(to bottom, rgba(31,23,20,0.44) 0%, rgba(31,23,20,0.28) 40%, rgba(49,30,22,0.70) 100%);
+  }
+  .hero-content {
+    position: relative;
+    text-align: center;
+    padding: var(--section-pad-x);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(28px, 4.5vh, 46px);
+  }
+  .hero-logo {
+    height: clamp(210px, 31vh, 320px);
+    width: auto;
+    display: block;
+    filter: drop-shadow(0 6px 30px rgba(31,23,20,0.40));
+  }
+
+  /* ---- Countdown ---- */
+  .countdown {
+    display: flex;
+    gap: clamp(16px, 4vw, 48px);
+    justify-content: center;
+  }
+  .cd-unit { text-align: center; }
+  .cd-num {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-size: var(--text-countdown);
+    line-height: 1;
+    color: var(--dust);
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 2px 26px rgba(31,23,20,0.38);
+  }
+  .cd-label {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--ochre);
+    margin-top: 12px;
+    text-shadow: 0 1px 10px rgba(31,23,20,0.35);
+  }
+  .countdown-after {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-size: var(--text-display);
+    color: var(--dust);
+    text-align: center;
+    margin: 0;
+  }
+
+  .meta-line {
+    font-family: var(--font-body);
+    font-size: var(--text-caps);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--dust);
+    opacity: 0.78;
+    text-shadow: 0 1px 12px rgba(31,23,20,0.45);
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 28px; left: 50%;
+    transform: translateX(-50%);
+    color: var(--dust);
+    font-size: 22px;
+    opacity: 0.5;
+    animation: cue 2.4s var(--ease-out) infinite;
+  }
+  @keyframes cue {
+    0%, 100% { transform: translate(-50%, 0); opacity: .5; }
+    50%      { transform: translate(-50%, 8px); opacity: .3; }
+  }
+
+  @keyframes riseIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-content > * { opacity: 0; animation: riseIn 900ms var(--ease-out) both; }
+    .hero-content > *:nth-child(1) { animation-delay: 120ms; }
+    .hero-content > *:nth-child(2) { animation-delay: 320ms; }
+    .hero-content > *:nth-child(3) { animation-delay: 520ms; }
+    .scroll-cue { opacity: 0; animation: cue 2.4s var(--ease-out) 1600ms infinite; }
+  }
+
+  /* ---- Welcome ---- */
+  .welcome {
+    position: relative;
+    background: var(--cream);
+    padding: var(--section-pad-y) var(--section-pad-x);
+    text-align: center;
+  }
+  .welcome::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("assets/texture_dust.jpg") center/cover;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+  .welcome p {
+    position: relative;
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-size: var(--text-body-lg);
+    line-height: 1.65;
+    color: var(--charcoal);
+    max-width: var(--measure-reading);
+    margin: 0 auto;
+    text-wrap: pretty;
+  }
+
+  /* ---- Values ---- */
+  .values {
+    background: var(--dust);
+    padding: var(--section-pad-y) var(--section-pad-x);
+  }
+  .values-grid {
+    max-width: 860px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .pillar {
+    background: var(--surface-card);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-organic);
+    padding: clamp(20px, 3vw, 32px);
+    text-align: center;
+  }
+  .pillar h3 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-size: var(--text-title);
+    color: var(--clay);
+    margin: 0;
+  }
+  .pillar-rule {
+    width: 40px; height: 1.5px;
+    background: var(--clay);
+    opacity: 0.5;
+    border-radius: 2px;
+    margin: 12px auto 14px;
+    transform: rotate(-0.4deg);
+  }
+  .pillar p {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--charcoal);
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  /* ---- The Place ---- */
+  .place {
+    background: var(--charcoal);
+    padding: clamp(48px, 8vh, 80px) var(--section-pad-x);
+    text-align: center;
+  }
+  .place-mark {
+    height: 44px; width: auto;
+    display: block;
+    margin: 0 auto 20px;
+    opacity: 0.9;
+  }
+  .place p {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-style: italic;
+    font-weight: 400;
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    color: var(--dust);
+    margin: 0;
+  }
+
+  /* ---- Footer ---- */
+  .footer {
+    background: var(--charcoal);
+    padding: 48px var(--section-pad-x);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .footer .f-primary {
+    font-family: var(--font-body);
+    font-size: var(--text-small);
+    color: var(--dust);
+  }
+  .footer .f-attr {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    color: var(--text-on-dark-muted);
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 720px) {
+    .values-grid { grid-template-columns: 1fr; }
+    .cd-num { font-size: clamp(2.75rem, 16vw, 4rem); }
+    .countdown { gap: clamp(12px, 5vw, 24px); }
+  }
+
+  /* ---- Reduced motion / video fallback ---- */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .hero-video { display: none; }
+    .scroll-cue { animation: none; }
+  }
+
+  /* Scroll reveal (class applied by JS only when motion is allowed) */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 900ms var(--ease-out), transform 900ms var(--ease-out); }
+  .reveal.in { opacity: 1; transform: none; }
+  .pillar.reveal:nth-child(2) { transition-delay: 110ms; }
+  .pillar.reveal:nth-child(3) { transition-delay: 220ms; }
+  .pillar.reveal:nth-child(4) { transition-delay: 330ms; }
+</style>
+</head>
+<body>
+
+
+
+<!-- 1. HERO -->
+<section class="hero" data-screen-label="Hero">
+  <video class="hero-video" autoplay="" muted="" loop="" playsinline="" preload="metadata" poster="assets/hero_poster.jpg">
+    <source src="assets/adama_hero_loop.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <img class="hero-logo" src="assets/logo_reversed_dark.png" alt="ADAMA — The fire is always burning.">
+    <div id="countdown" class="countdown" aria-live="off"></div>
+    <span class="meta-line">Black Rock City rises again · Aug 30 – Sep 7, 2026</span>
+  </div>
+  <div class="scroll-cue" aria-hidden="true">↓</div>
+</section>
+
+<!-- 2. THE WELCOME -->
+<section class="welcome" data-screen-label="The Welcome">
+  <p data-reveal="">ADAMA is a camp where people are welcomed as they are, grounded by the earth, and gathered around the fire.</p>
+</section>
+
+<!-- 3. THE VALUES -->
+<section class="values" data-screen-label="The Values">
+  <div class="values-grid">
+    <div class="pillar" data-reveal="">
+      <h3>Welcome</h3>
+      <div class="pillar-rule"></div>
+      <p>You are received as you are. No performance required.</p>
+    </div>
+    <div class="pillar" data-reveal="">
+      <h3>Ground</h3>
+      <div class="pillar-rule"></div>
+      <p>Earthy, physical, embodied. Bare feet on ancient dust.</p>
+    </div>
+    <div class="pillar" data-reveal="">
+      <h3>Fire</h3>
+      <div class="pillar-rule"></div>
+      <p>The gathering point. Warmth that is always burning.</p>
+    </div>
+    <div class="pillar" data-reveal="">
+      <h3>Becoming</h3>
+      <div class="pillar-rule"></div>
+      <p>Transformation is allowed here. Never demanded.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. THE PLACE -->
+<section class="place" data-screen-label="The Place">
+  <img class="place-mark" src="assets/logo_icon.png" alt="" data-reveal="">
+  <p data-reveal="">A firelit welcome in the dust.</p>
+</section>
+
+<!-- 5. FOOTER -->
+<footer class="footer" data-screen-label="Footer">
+  <span class="f-primary">ADAMA · Black Rock City 2026</span>
+  <span class="f-attr">Playa footage: "Playa Time: Dust to Dust" by Matt Goodman, CC BY 3.0</span>
+</footer>
+
+<script>
+  (function () {
+    var TARGET = new Date('2026-08-30T00:00:00-07:00').getTime();
+    var el = document.getElementById('countdown');
+    var pad = function (n) { return String(n).padStart(2, '0'); };
+
+    function render() {
+      var diff = TARGET - Date.now();
+      if (diff <= 0) {
+        el.classList.remove('countdown');
+        el.innerHTML = '<p class="countdown-after">The fire is burning. We are home.</p>';
+        return false;
+      }
+      var s = Math.floor(diff / 1000);
+      var units = [
+        ['Days', String(Math.floor(s / 86400))],
+        ['Hours', pad(Math.floor((s % 86400) / 3600))],
+        ['Minutes', pad(Math.floor((s % 3600) / 60))],
+        ['Seconds', pad(s % 60)]
+      ];
+      var html = '';
+      for (var i = 0; i < units.length; i++) {
+        html += '<div class="cd-unit"><div class="cd-num">' + units[i][1] +
+                '</div><div class="cd-label">' + units[i][0] + '</div></div>';
+      }
+      el.innerHTML = html;
+      return true;
+    }
+
+    if (render()) {
+      var id = setInterval(function () {
+        if (!render()) clearInterval(id);
+      }, 1000);
+    }
+  })();
+
+  /* Gentle scroll reveal — opt-in only when motion is allowed and supported,
+     so no-JS and reduced-motion visitors always see fully-rendered content. */
+  (function () {
+    if (!('IntersectionObserver' in window)) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var els = document.querySelectorAll('[data-reveal]');
+    els.forEach(function (el) { el.classList.add('reveal'); });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+
+
+
+</body></html>
