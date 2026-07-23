@@ -919,8 +919,10 @@
       }
     });
 
-    /* Hide if audio file doesn't exist */
-    fetch('assets/ambient_fire_loop.mp3', { method: 'HEAD' }).catch(function () {
+    /* Hide if audio file doesn't exist (404 returns ok=false, not an error) */
+    fetch('assets/ambient_fire_loop.mp3', { method: 'HEAD' }).then(function (r) {
+      if (!r.ok) btn.style.display = 'none';
+    }).catch(function () {
       btn.style.display = 'none';
     });
   })();
